@@ -1,0 +1,140 @@
+PSEUDO-CÓDIGO
+
+  // ── Estructuras de datos ──────────────────────────
+  baraja[52]        // array con valores del 1 al 13, repetidos 4 veces
+  mano_jugador[11]  // max 11 cartas posibles antes de bust
+  mano_dealer[11]
+  
+  contador_jugador = 0
+  contador_dealer  = 0
+
+  // ── INICIO ────────────────────────────────────────
+  FUNCION main():
+    MIENTRAS:
+      inicializar_baraja()
+      mezclar_baraja()
+      jugar_ronda()
+      
+      MOSTRAR "¿Jugar de nuevo? (s/n)"
+      LEER respuesta
+      SI respuesta == 'n' → SALIR
+
+  // ── INICIALIZAR ───────────────────────────────────
+  FUNCION inicializar_baraja():
+    PARA i = 0 HASTA 51:
+      baraja[i] = (i % 13) + 1   // valores 1-13
+
+  FUNCION mezclar_baraja():
+    PARA i = 51 HASTA 1:
+      j = numero_random(0, i)
+      intercambiar(baraja[i], baraja[j])
+
+  // ── REPARTIR ──────────────────────────────────────
+  FUNCION jugar_ronda():
+    indice_baraja = 0
+
+    // Dar 2 cartas a cada uno
+    mano_jugador[0] = sacar_carta()
+    mano_dealer[0]  = sacar_carta()
+    mano_jugador[1] = sacar_carta()
+    mano_dealer[1]  = sacar_carta()
+
+    contador_jugador = 2
+    contador_dealer  = 2
+
+    // Mostrar estado inicial
+    mostrar_mano_jugador()
+    mostrar_carta_visible_dealer()
+
+    // Verificar blackjack natural
+    SI calcular_puntaje(mano_jugador) == 21:
+      MOSTRAR "¡BLACKJACK! Ganaste"
+      RETORNAR
+
+    // Turno jugador
+    turno_jugador()
+
+    // Si no se pasó, turno dealer
+    SI calcular_puntaje(mano_jugador) <= 21:
+      turno_dealer()
+      determinar_ganador()
+
+  // ── TURNO JUGADOR ─────────────────────────────────
+  FUNCION turno_jugador():
+    MIENTRAS:
+      MOSTRAR "¿Hit (h) o Stand (s)?"
+      LEER accion
+
+      SI accion == 'h':
+        mano_jugador[contador_jugador] = sacar_carta()
+        contador_jugador++
+        mostrar_mano_jugador()
+
+        SI calcular_puntaje(mano_jugador) > 21:
+          MOSTRAR "BUST - Te pasaste de 21"
+          RETORNAR
+
+      SI accion == 's':
+        RETORNAR
+
+  // ── TURNO DEALER ──────────────────────────────────
+  FUNCION turno_dealer():
+    mostrar_mano_completa_dealer()
+
+    MIENTRAS calcular_puntaje(mano_dealer) < 17:
+      mano_dealer[contador_dealer] = sacar_carta()
+      contador_dealer++
+      mostrar_mano_completa_dealer()
+
+  // ── CALCULAR PUNTAJE ──────────────────────────────
+  // Recordar que ases se interpretan a conveniencia del jugador (1, 11)
+  FUNCION calcular_puntaje(mano):
+    total = 0
+    ases  = 0
+
+    PARA cada carta EN mano:
+      SI carta == 1:          // As
+        ases++
+        total += 11
+      SI carta >= 10:         // J, Q, K
+        total += 10
+      SINO:
+        total += carta
+
+    // Ajustar ases si hay bust
+    MIENTRAS total > 21 Y ases > 0:
+      total -= 10
+      ases--
+
+    RETORNAR total
+
+  // ── GANADOR ───────────────────────────────────────
+  FUNCION determinar_ganador():
+    p_jugador = calcular_puntaje(mano_jugador)
+    p_dealer  = calcular_puntaje(mano_dealer)
+
+    SI p_dealer > 21:
+      MOSTRAR "Dealer hizo BUST - ¡Ganaste!"
+    SI p_jugador > p_dealer:
+      MOSTRAR "¡Ganaste!"
+    SI p_jugador < p_dealer:
+      MOSTRAR "Perdiste"
+    SI p_jugador == p_dealer:
+      MOSTRAR "Empate (Push)"
+
+  // ── UTILIDADES ────────────────────────────────────
+  FUNCION sacar_carta():
+    carta = baraja[indice_baraja]
+    indice_baraja++
+    RETORNAR carta
+
+  FUNCION numero_random(min, max):
+    // Syscall 42 da un número random en mips creo
+    RETORNAR (syscall_random % (max - min + 1)) + min
+
+// TODO
+
+
+-limpiar pantalla en interfaz
+-README.md
+-primer commit

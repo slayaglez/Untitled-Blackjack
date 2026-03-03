@@ -1,0 +1,21 @@
+Flujo de la partida:
+
+1. Se reparten 2 cartas al jugador y 2 al dealer
+   - Jugador ve sus 2 cartas
+   - Dealer muestra solo 1 carta
+
+2. Turno del jugador (se repite hasta que decida parar):
+   - "Hit"  -> pedir una carta más
+   - "Stand" -> plantarse, pasar turno al dealer
+
+3. Si el jugador supera 21 -> BUST -> pierde
+
+4. Turno del dealer:
+   - Revela su carta oculta
+   - El dealer DEBE pedir carta si tiene < 17
+   - El dealer DEBE plantarse si tiene >= 17
+
+5. Comparación final:
+   - Mayor puntuación sin pasarse de 21 -> gana
+   - Empate -> "Push" (nadie gana)
+   - Blackjack natural (As + carta de 10) -> pago especial

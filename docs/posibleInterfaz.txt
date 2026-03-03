@@ -1,0 +1,93 @@
+╔════════════════════════════════════════╗
+║           ♠ BLACKJACK ♠                ║
+╠════════════════════════════════════════╣
+║  DEALER  [carta oculta]                ║
+║                                        ║
+║  ┌─────┐  ┌─────┐                      ║
+║  │ ??? │  │  7  │                      ║
+║  │     │  │  ♥  │                      ║
+║  └─────┘  └─────┘                      ║
+║                                        ║
+╠════════════════════════════════════════╣
+║  TU MANO                    Pts: 16    ║
+║                                        ║
+║  ┌─────┐  ┌─────┐                      ║
+║  │  K  │  │  6  │                      ║
+║  │  ♠  │  │  ♦  │                      ║
+║  └─────┘  └─────┘                      ║
+║                                        ║
+╠════════════════════════════════════════╣
+║  [H] Hit          [S] Stand            ║
+╚════════════════════════════════════════╝
+
+
+╔════════════════════════════════════════╗
+║                                        ║
+║              ¡GANASTE!                 ║
+║                                        ║
+║         Tu puntaje:    19              ║
+║         Dealer:        16              ║
+║                                        ║
+║         [S] Jugar de nuevo             ║
+║         [N] Salir                      ║
+╚════════════════════════════════════════╝
+
+
+Mesa=====
+
+╚ ╝ ╗ ╔
+
+═ ║
+
+╠ ╣
+
+Cartas=====
+
+└ ┘ ┌ ┐
+
+│ ─
+
+♠ ♦ ♥ ♣
+
+11 -> J
+12 -> Q
+13 -> K
+
+
+Para imprimir cartas una al lado de la otra habría que inicializar cadenas de esta forma (5 líneas):
+
+.data
+  card_top:    .asciiz "┌─────┐"
+  card_mid1:   .asciiz "│     │"   // aquí va el valor
+  card_mid2:   .asciiz "│     │"   // aquí va el palo
+  card_bot:    .asciiz "└─────┘"
+  card_secret: .asciiz "│ ??? │"
+
+
+De esta forma permitiría hacer lo siguiente:
+
+vuelta 1 → imprimir "┌─────┐  ┌─────┐  ┌─────┐"
+
+vuelta 2 → imprimir "│  J  │  │  7  │  │  A  │"
+
+vuelta 3 → imprimir "│  ♠  │  │  ♦  │  │  ♥  │"
+
+vuelta 4 → imprimir "└─────┘  └─────┘  └─────┘"
+
+
+De momento esperemos que el jugador no necesite más cartas de las que quepan en la terminal.
+
+En pseudocódigo sería algo así:
+
+PARA fila = 1 HASTA 4:
+  PARA cada carta EN mano:
+    imprimir_fila_de_carta(carta, fila)
+  imprimir_salto_de_linea()
+
+
+Impresionante que no se pueda limpiar pantalla en MIPS. ALTERNATIVA:
+
+# "limpiar" pantalla
+li $v0, 4
+la $a0, newlines    // string con 30 \n seguidos
+syscall
