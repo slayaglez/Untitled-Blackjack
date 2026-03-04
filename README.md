@@ -62,22 +62,25 @@ untitled-blackjack/
 
 <hr>
 
-#### [Problema 1] — *Plantilla*
-**Fecha:** 
+<details>
+<summary> <b>[Problema 1] — La aleatoriedad no existe</b> </summary>
 
-**Descripción:**
+**Fecha:** 04/04/2026
+
+**Descripción:** Al parecer en MIPS no existe una forma de crear un número aleatorio, en casi ningún sitio a menos que midan fenómenos físicos.
 
 
-**Causa:**
+**Causa:** No quiero usar librerías externas y necesito un número aleatorio para barajar las cartas.
 
 
-**Solución:**
+**Solución:** La mejor solución que encontré es la "*pseudoaletoriedad*", básicamente un número inicial o "seed" que una fórmula matemática alterará para dar una ilusión de aleatoriedad. La seed podemos pedirla al usuario para evitar la misma secuencia en todas las partidas
 
 
 **Código relevante:**
 ```mips
 # código
 ```
+</details>
 
 <hr>
 

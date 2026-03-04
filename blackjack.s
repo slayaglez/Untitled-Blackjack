@@ -66,3 +66,32 @@ inicializar_baraja:
     jr $ra
 
 
+# FUNCION B
+# TODO ============= 2
+mezclar_baraja:
+
+    li $t0, 52          # i = 0
+    li $t1, 1           # limite
+    la $t2, baraja      # direccion array
+
+    for_b1:
+        bge $t0, $t1, fin_a1
+
+        sll $t3, $t0, 2     # offset de 4 en 4
+        add $t3, $t2, $t3   # direccion actual
+
+        li $t5, 13
+        div $t0, $t5
+        mfhi $t6            # t6 = (i % 13)
+        addi $t6, $t6, 1    # t6 + 1
+
+        sw $t6, 0($t3)      # baraja[i] = (i % 13) +1
+
+        addi $t0, $t0, 1
+        j for_b1
+
+
+# FUNCION C
+# TODO =============== 1
+random:
+
