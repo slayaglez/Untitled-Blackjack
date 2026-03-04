@@ -1,4 +1,4 @@
-# Untitled Blackjack
+<img src="img/blackjack_header.png">
 
 > *Un desafío personal para practicar mis conocimientos de ensamblador MIPS.*
 
